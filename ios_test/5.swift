@@ -23,18 +23,21 @@ class Aclass {
 
 
 // 아래의 주석을 제거하고 코드를 구현
+class Bclass: Aclass {
 
-//class Bclass: Aclass {
-//
-//    var z: Int
-//
-//    // 이 부분에 지정생성자 및 편의 생성자(상위의 지정생성자를 재정의해서) 구현
-//
-//
-//
-//}
-
-
+    var z: Int
+    
+    // 지정 생성자 구현
+    init(x: Int, y: Int, z: Int) {
+        self.z = z
+        super.init(x: x, y: y)
+    }
+    
+    // 편의 생성자 구현 (상위의 지정 생성자를 편의 생성자로 재정의)
+    convenience override init(x: Int, y: Int) {
+        self.init(x: x, y: y, z: 0)
+    }
+}
 
 
 
@@ -45,8 +48,9 @@ class Aclass {
  ===================================================================**/
 
 
-//
-
+// 편의 생성자는 클래스의 지정 생성자를 호출하여 초기화를 보다 간편하게 수행할 수 있도록 돕는 생성자. 
+// 지정 생성자와는 다르게 클래스 내에서만 호출이 가능하며, 
+// 주로 동일한 클래스 내에서 여러 초기화 과정을 간소화하거나 기본값을 설정하는 데 사용
 
 
 
@@ -75,7 +79,11 @@ class SuperClass {
 
 class SubClass: SuperClass {
     // 메서드 재정의 코드 구현
-
+    override func sayHello() {
+        super.sayHello()
+        print("반깁습니다.")
+        print("잘 부탁드려요.")
+    }
     
 }
 
@@ -107,8 +115,8 @@ subClass.sayHello()
 
 extension Int {
     // 아래 제곱(square) 함수의 내부 구현을 완성.
-    func square() {
-        
+    func square() -> Int {
+        return self * self
     }
 }
 
@@ -146,9 +154,9 @@ class Hero {
 
 extension Hero {
     // 이 부분을 이름만 가지고 생성할 수 있는 생성자로 구현.
-
-    
-    
+    convenience init(name: String) {
+        self.init(name: name, id: 0)
+    }
     
 }
 
@@ -160,8 +168,8 @@ var hero3 = Hero(name: "헐크", id: 2)
 
 
 // 위의 확장에서, 생성자를 제대로 구현하면 아래의 코드가 사용 가능해 짐.
-//var hero4 = Hero(name: "토르")
-//var hero5 = Hero(name: "스파이더맨")
+var hero4 = Hero(name: "토르")
+var hero5 = Hero(name: "스파이더맨")
 
 
 
@@ -172,7 +180,14 @@ var hero3 = Hero(name: "헐크", id: 2)
  ===================================================================**/
 
 
-//
+// 메서드 디스패치는 객체가 특정 메서드를 호출할 때 그 메서드의 실행 방식을 결정하는 과정
+
+// Direct 디스패치: 컴파일 타임에 메서드의 위치가 결정되어 바로 접근하여 실행하는 방식
+// 빠른 성능을 보장하며, 보통 구조체와 열거형의 메서드가 해당
+
+// Dynamic 디스패치: 런타임에 메서드의 위치가 결정되는 방식으로, 동적 바인딩을 사용하여 실행
+// 클래스의 메서드는 주로 Dynamic 디스패치를 사용
+// 이는 다형성을 지원하지만, 성능은 상대적으로 Direct 디스패치보다 떨어짐.
 
 
 
@@ -194,7 +209,10 @@ var hero3 = Hero(name: "헐크", id: 2)
 // RemoteControl 프로토콜
 protocol RemoteControl {
     // 이 내부의 코드를 완성.
-    
+    var name: String { get } // 읽기 전용 속성
+
+    func turnOn() -> Bool
+    func turnOff(num: Int) -> Bool
     
 }
 
