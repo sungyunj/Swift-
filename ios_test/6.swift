@@ -3,7 +3,10 @@
   - 클래스(Class)와 구조체(Struct)의 차이점은? 가장 중요한 차이점 위주로 간단하게 서술.
  ===================================================================**/
 
-//
+// 클래스(Class)와 구조체(Struct)의 가장 중요한 차이점은 참조(reference)와 값(value)의 차이. 
+// 클래스는 참조 타입(reference type)으로, 인스턴스가 메모리의 동일한 위치를 참조하여 수정할 수 있음. 
+// 반면 구조체는 값 타입(value type)으로, 인스턴스가 복사되어 각기 다른 메모리 위치에 저장됨. 
+// 이로 인해 클래스는 상속을 지원하지만, 구조체는 상속을 지원하지 않는ㄷㅏ.
 
 
 
@@ -39,15 +42,25 @@ class Aclass {
 
 // 아래의 주석을 제거하고 코드를 구현
 
-//class Bclass: Aclass {
-//
-//    var z: Int
-//
-//    // 이 부분에 지정생성자를 2개 (상위의 지정생성자를 재정의한 것 포함) 구현
-//
-//
-//
-//}
+class Bclass: Aclass {
+
+   var z: Int
+
+   // 이 부분에 지정생성자를 2개 (상위의 지정생성자를 재정의한 것 포함) 구현
+
+   // 지정생성자 1: 상위의 지정생성자를 재정의
+    init(x: Int, y: Int, z: Int) {
+        self.z = z
+        super.init(x: x, y: y)
+    }
+
+    // 지정생성자 2: 기본값을 사용하는 생성자
+    init(z: Int) {
+        self.z = z
+        super.init(x: 0, y: 0) // 기본값 사용
+    }
+
+}
 
 
 
@@ -76,8 +89,9 @@ class Hero {
 extension Hero {
     // 이 부분을 이름만 가지고 생성할 수 있는 생성자로 구현.
 
-    
-    
+    convenience init(name: String) {
+        self.init(name: name, id: 0) // 아이디는 0으로 설정
+    }
     
 }
 
@@ -99,8 +113,9 @@ var hero3 = Hero(name: "헐크", id: 2)
   - Any와 AnyObject타입의 차이는 뭔가요? 아는대로 간단하게 서술.
  ===================================================================**/
 
-//
-
+// Any는 Swift의 모든 데이터 타입을 나타낼 수 있는 타입이며, 값의 타입을 특정할 수 없다. 
+// 반면 AnyObject는 클래스 타입의 인스턴스를 나타내며, 모든 클래스 타입의 객체를 포함할 수 있다. 
+// 즉, Any는 값 타입과 클래스 타입 모두를 포함할 수 있지만, AnyObject는 오직 클래스 타입만 포함할 수 있다.
 
 
 
@@ -123,10 +138,12 @@ var hero3 = Hero(name: "헐크", id: 2)
 // RemoteControl 프로토콜
 protocol RemoteControl {
     // 이 내부의 코드를 완성.
+    var name: String { get } // 읽기 속성 요구
     
+    func turnOn() -> Bool // turnOn 메서드 요구
+    func turnOff(num: Int) -> Bool // turnOff 메서드 요구
     
 }
-
 
 
 
